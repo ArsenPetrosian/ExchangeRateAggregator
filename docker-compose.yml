@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  bankexchangerateaggregator:
+    image: ${DOCKER_REGISTRY-}bankexchangerateaggregator
+    container_name: bankexchangerateaggregator
+    build:
+      context: .
+      dockerfile: BankExchangeRateAggregator/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+  products.database:
+    image: postgres:latest
+    container_name: products.database
+    environment:
+      - POSTGRES_DB=bankexchangerateaggregator
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    # volumes:
+    #   - ./.containers/bankexchangerateaggregator-db/var/lib/postgresql/data
+    ports:
+      - 5432:5432
